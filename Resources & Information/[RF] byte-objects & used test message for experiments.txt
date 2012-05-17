@@ -1,0 +1,122 @@
+﻿
+Ha-llo plug-in team
+
+####OPLOSSING IS AL GEVONDEN#####
+####DE OPLOSSING IS: EERST 4 PACKEN NAAR BYTE: struct.pack('=B', waarde)####
+####VERVOLGENS DE 4 BYTEOBJECTEN ALS GEHEEL UNPACKEN ALS FLOAT: struct.unpack('>f', container)##### denk aan byte order
+####packen naar byte neemt maar 1 byte argument natuurlijk, unpacken naar float neemt er 4 ###
+####voor id geld struct.unpack('>i', containermet4bytes) ####
+
+Als je mijn vorige mail hebt gelezen, dan weet je al ongeveer
+wat het probleem is.
+
+
+Ok let's start:
+
+intro:
+    Je weet in python worden byte objecten aangegeven met de prefix b'
+    dus, b'\x07' is een byte object. sommige byte objecten kunnen in ASCII
+    uitgedrukt worden, maar niet allen. In ieder geval kunnen ze wel allemaal
+    als een int worden uitgedrukt.
+
+het ding:
+    Ik heb veel zitten testen maar zit dus met dát ene probleem.
+    Dit is wat je kunt doen om er ook aan te zitten / research te beginnen.
+
+    let op:  wat ik vanaf hieronder ga schrijven is geen code voor een
+    python file. Het zijn losse commands die je opeenvolgend kan uitvoeren 
+	in de python interpreter om dit fenomeen uit te testen.
+	Het is een van de dingen die ik heb uitgeprobeerd:
+	
+	
+	1.#die byte message waarmee we hebben gewerkt, zet die in data door in te voeren
+	  #als je die niet meer hebt, check dan onder aan deze file.
+	
+	data = b'hier_dat_bericht_'
+	
+	2.#ok, nu zitten de 668 bytes in data - even checken.
+	
+	len(data) 
+	
+	3.#even handmatig bytewaarde toekennen, we beginnen bij het 2e onderdeel - we slaan pelvis dus even over.
+	
+	byte1 = data[28]
+	byte2 = data[29]
+	byte3 = data[30]
+	byte4 = data[31]
+	
+	4.#de waarde geven nu allemaal integer waarde terug test maar
+	
+	byte1
+	>> 65
+	
+	5.#we veranderen ze naar char
+	
+	byte1 = chr(byte1)
+	byte2 = chr(byte2)
+	byte3 = chr(byte3)
+	byte4 = chr(byte4)
+	
+	6.#hmmmmz, we hebben nu van byte1 en byte2 een ascii representatie.
+	  #van byte4 weten we waarom die '\x05' terug geeft, maar van byte3 krijgen we een
+	  #Windows-1252 representatie terug: http://en.wikipedia.org/wiki/Windows-1252
+      #kijk maar naar de letter die decimale 197 representeerd.
+      #het lijkt er dus op dat als je chr(byte) doet deze automatisch 'verder' gaat dan
+      #de standaard ascii op het moment dat de waarde deze overschrijdt.
+	
+	7.#ok dit lijkt nog geen probleem op het eerste gezicht
+	  #want we moeten de chars toch nog omzetten naar byteobjects.
+	  #dus i.p.v 'A' willen we b'A'.
+	  
+	8.#dit kan door str.encode(byte1) te doen bijvoorbeeld
+	
+	byte1 = str.encode(byte1)
+	byte2 = str.encode(byte2)
+	byte3 = str.encode(byte3)
+	byte4 = str.encode(byte4)
+	
+	9.#het zijn nu allemaal byte objecten
+	  #en zoals je weet kun je bytes en chars gewoon aan elkaar plakken
+	  #met '+'
+	  
+	  floatcontainer = byte1+byte2+byte3+byte4;
+	  
+	10.#maar ..:
+	
+	len(floatcontainer)
+	>> 5
+	
+	11.#eerder hadden we al 'import struct' gedaan
+	   #de struct library hebben we nu tot onze beschikking
+	   #maar, de functie 'struct.unpack('f', floatcontainer)'
+	   #zou nu niet meer werken, omdat 'f' een object van 4 bytes nodig heeft.
+	
+	struct.unpack('f', floatcontainer)
+	
+	Traceback (most recent call last):
+      File "<pyshell#272>", line 1, in <module>
+        struct.unpack('f', str.encode(floatcon))
+           struct.error: unpack requires a bytes object of length 4
+		   
+		 (T _ T) ..
+		 
+	12.#als je kijkt waarom .. zie je dat byte3 zijn ware vorm toont.
+	   #hij is verandert in 2 bytes.
+	   
+	   
+	13.#We moeten dus een manier vinden waarop we waarde boven ASCII kunnen representeren als
+	   #een b'\xhh' -achtig iets.
+	
+	14.#En oja, andere manieren om byte objecten te creeëren heb ik al geprobeerd.
+	   #maar je kunt de uitdaging aan gaan om een andere manier te vinden, zoals bijv
+	   #direkt een byte object te pakken uit data i.p.v byte1 = data[28] 
+	   #ik, heb nog niet gevonden hoe zoiets kan - als zoiets kan.
+	   
+	   
+	
+	- HIERONDER HET BERICHT WAARMEE WE TOT NU TOE HEBBEN GEWERKT - 
+	- STOP HET TUSSEN : b'plak_hier_tussen' - 
+	
+	MXTP01\x00\x00\x00\x00\x80\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01A_\xc5\x05B\xb4\x13\x9c\xc2@\xbaDC"B_A\xa9\xec\xba\xc33W\x92\x00\x00\x00\x02AL\xaa\xceB\xc6\xcb\xe1\xc25\x8cJC)8$A\xa55g\xc33\xbe\xbc\x00\x00\x00\x03AA\x97\x8dB\xda\x1f\xf3\xc2.\xa8sC0(\x81A\xa0\xe4\x17C3\xc7\xc2\x00\x00\x00\x04A>\x94FB\xed\xae\xb2\xc2,1\r\xc30\xeb\xb9A\x9d\x08\x97C3=\xd1\x00\x00\x00\x05ACz\x10C\x00\x9d)\xc2.,=\xc3*\x03\xb7A\x99\xb1\x8dC2\xa5y\x00\x00\x00\x06AV\x88fC\x0f2G\xc27\xe3 \xc3$/\xebA\x8b\x12\xebC3\xf06\x00\x00\x00\x07Ac\xb6\xaeC\x18\xce\xd9\xc2BGz\xc3(\x87\xc5A__5\xc31\xbd\xed\x00\x00\x00\x08A}l"C\n6\xa1\xc20\xa9\xe2\xc3.\x80\xfcA\xb0\x07\xcfC(+\xd8\x00\x00\x00\tA\xeb\xc5mC\x07[\xba\xc2\x1a&L\xc3\x1b\xf5\x8d\xc0\xe1\x147B\xd8\xde\x9d\x00\x00\x00\nB\x1cl\xf4B\xd4\xe7\xd5\xc2)/\xec\xc3\x1f*\xd9\xc1\xc34~B\xc7\xfcs\x00\x00\x00\x0bB,\x1b\xdaB\xa8gE\xc2R/5\xc3/\xe0?\xc1\x9f\xc7\x19B\xe8\x1e\xc6\x00\x00\x00\x0cA"\xcb\x92C\nX\xe2\xc28\x8f\x91\xc3(1MA\xbf\x96?\xc30\xac\xc0\x00\x00\x00\r\xc0b\x04\x19C\t\x8d\x08\xc2P\xf3\xd0\xc2\xc2\x9e\xfeB\x1cs\x1e\xc2\xac\xb6\xa3\x00\x00\x00\x0e\xc0\x01#\xa3B\xe3\x8e\xa5\xc2\x8f5\xc3\xc2f\xf3\xccB1\xc2\xcd\xc2+\xa0\xa9\x00\x00\x00\x0fA/O\xdfB\xcbp\x07\xc2\xb1\xf3\xb6\xc0\xa6p\xc4B\x9e\xaeEA\x86\xb7\xf5\x00\x00\x00\x10A\xa52\x96B\xb4M\x01\xc26\xa6\x81\xc318\xaeA\x99%\xe2\xc33\xbaQ\x00\x00\x00\x11A\xa1y>BA\xcdj\xc2/\x00\xd2\xc3*I\x7fA\xaa$\xd4C1\xf2\xd3\x00\x00\x00\x12A\x81\x8d\x84@\xe68\x86\xc2\x14)\xad\xc33 uA\x96\x922C1$N\x00\x00\x00\x13A\xa7\x8b\xe1?\xca\x95\xea\xc2O\x1c\xe0\xc33\xad\xa3A\x96y\xd4C0\xbd\x0f\x00\x00\x00\x14@\xe7\xe8>B\xb3\xc5\x88\xc2J\xa4\xa9C\x1du\xcaA\x83\xf7jC.\x06\x99\x00\x00\x00\x15@\xf8\x1a7BLB\x8f\xc2\x84\x02[C+\x85KA\x91\xdc\x95C.R\xc5\x00\x00\x00\x16@\xb5zxA\x16\xb7\x80\xc2\x8f\xc0\x90C-\xb6\x08A\x93\xea\x04C/_|\x00\x00\x00\x17A\'\xe2\x82@\xb4GE\xc2\xaeR\xe5\xc32\xa9\xfaA\x96Q\xe6C.\x97\x06
+
+
