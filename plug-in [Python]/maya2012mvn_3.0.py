@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import maya.utils as utils
 import struct
 import socket
 import threading
@@ -19,6 +20,8 @@ from struct import *
 NAME = None
 
 obarray = []
+
+data = None
 
 # BODY PARTS #
 pelvis = None; l5 = None; l3 = None; t12 = None; t8 = None; neck = None; head = None; rish = None
@@ -145,11 +148,12 @@ def listen():
 	
 	# TRANSFORMATION PROCESSING PART #
 	global STATE
+	global data
 	while STATE == READY_TO_STOP:
 		print("starting to read ..")#DEBUG LINE
 		#place received message in data. buffer size is 1024 bytes.
 		data, addr = sock.recvfrom(1024)
-		transform(data)
+		utils.executeInMainThreadWithResult(transform)
 	
 	
 # FUNCTION: transform(data)		
@@ -158,10 +162,11 @@ def listen():
 # every segment comes with 28 bytes		
 # header is skipped because of validation feature. processing started from index 24
 # note: for recording the header part would be neccesary				
-def transform(data):
+def transform():
 	global obarray
 	global bodypart_names
 	global NAME
+	global data
 	# points to index in the message [data]
 	index_pointer = 24
 	# points to index in the object array [objectarray]
@@ -202,15 +207,16 @@ def transform(data):
 				index_pointer += 1
 				byte4 = data[index_pointer] #first round 27
 				index_pointer += 1
-				
-				byte1 = struct.pack('B', byte1)
-				byte2 = struct.pack('B', byte2)
-				byte3 = struct.pack('B', byte3)
-				byte4 = struct.pack('B', byte4)
+				print(byte1,byte2,byte3,byte4);
+				#byte1 = struct.pack('B', byte1)
+				#byte2 = struct.pack('B', byte2)
+				#byte3 = struct.pack('B', byte3)
+				#byte4 = struct.pack('B', byte4)
 				
 				segmentbox[segmentbox_pointer] = byte1+byte2+byte3+byte4
+				#print(byte1,byte2,byte3,byte4);
 				segmentbox[segmentbox_pointer] = struct.unpack('>i', segmentbox[segmentbox_pointer])
-				
+				print("Current ID: ", segmentbox[segmentbox_pointer]);
 
 				# place ID in 'item.ID'
 				obarray[array_pointer].ID = segmentbox[segmentbox_pointer][0] 
@@ -222,6 +228,7 @@ def transform(data):
 				# Beginning of the 'float cycles' #
 				for cycle in range(6):
 				
+					print(index_pointer)
 					byte1 = data[index_pointer]
 					index_pointer += 1
 					byte2 = data[index_pointer]
@@ -232,15 +239,15 @@ def transform(data):
 					index_pointer += 1			
 					
 					#pack to unsigned bytes
-					byte1 = struct.pack('B', byte1)
-					byte2 = struct.pack('B', byte2)
-					byte3 = struct.pack('B', byte3)
-					byte4 = struct.pack('B', byte4)
+					#byte1 = struct.pack('B', byte1)
+					#byte2 = struct.pack('B', byte2)
+					#byte3 = struct.pack('B', byte3)
+					#byte4 = struct.pack('B', byte4)
 					
 					#merge into a fcon
 					segmentbox[segmentbox_pointer] = byte1+byte2+byte3+byte4
 					segmentbox[segmentbox_pointer] = struct.unpack('>f', segmentbox[segmentbox_pointer])
-					
+					#print(segmentbox[segmentbox_pointer])
 					# python has no switch statement .. #
 					if cycle_counter == 1:
 						obarray[array_pointer].tranx = segmentbox[segmentbox_pointer][0]
@@ -265,6 +272,7 @@ def transform(data):
 					segmentbox_pointer += 1 
 					
 				# at the end of the float cycles :
+				print(obarray[array_pointer])
 				obarray[array_pointer].trantuple = (obarray[array_pointer].tranx, obarray[array_pointer].trany, obarray[array_pointer].tranz)
 				obarray[array_pointer].rotatuple = (obarray[array_pointer].rotx, obarray[array_pointer].roty, obarray[array_pointer].rotz)
 				
@@ -272,10 +280,11 @@ def transform(data):
 				array_pointer += 1
 				segmentbox_pointer = 0
 		#execute all known transformations
+		print("obarray before attribute setting", obarray)
 		for i in range(len(bodypart_names)):
 			cmds.setAttr(NAME + bodypart_names[i] + '.translate', obarray[i].trantuple[0], obarray[i].trantuple[1], obarray[i].trantuple[2])
 			cmds.setAttr(NAME + bodypart_names[i] + '.rotate', obarray[i].rotatuple[0], obarray[i].rotatuple[1], obarray[i].rotatuple[2])
-			print('doing', i)
+			print('doing', i)			
 	else:
 		print("invalid")
 		stop()
@@ -301,4 +310,3 @@ class transformation:
 				rotz = None
 					
 				ID = None
-				
