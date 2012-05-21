@@ -1,5 +1,6 @@
 project-motion-capture
 ======================
+LATEST VERSION 4.0
 
 Autodesk Maya | Xsens MVN Studio - real-time motion capture plug-in.
 
