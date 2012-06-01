@@ -6,8 +6,8 @@
 [] Ferry 	Kloek  (design) 		                            
 [] Philippe 	Wedema (design/docs)	       
 [] Patrick 	Stroombergen	(design)		
-[] Rik 		Ruiten	(code)			                     
-[] Joey 	Toppin	(code)			       
+[] Rik 		Ruiten	(code/docs)			                     
+[] Joey 	Toppin	(code/docs)			       
 
 
 De documentatie pagina op de Maya 2012 - MVN Studio plug-in.
