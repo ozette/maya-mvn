@@ -13,22 +13,26 @@ Language: Python 3.x 	<br>
 <br>
 <a href="../index.html">Home</a><br>
 
+
 <br>
-<h2>stop()</h2>
+<h2>start()</h2>
 <br>
 
 <h2>Parameters</h2>
-Requires the READY_TO_STOP status<br>
+Requires the READY_TO_READ status.<br>
 
 <h2>Return Values</h2>
-READY_TO_READ status<br>
+Pose data which influences the locked human skeleton.<br> 
 
 <h2>Description</h2>	
-This command brings the program back to the READY_TO_READ status.<br>
-This command is available while you've started a recorded or non-recorded motion capture session in Maya.<br>	    
+Start reading motion capture ouput data from an external source (MVN Studio).<br>  
+
+This is loose reading, the motions are not saved.<br>  
+The default udp port used in the code is 9763.<br>
+<br>
+<b>NOTE:</b> You should execute either this function or the 'record()' function to succesfully start a session.<br>
 
 <h2>Also See</h2>	
-<a href="function_read.html">start()</a><br>
 <a href="function_record.html">record()</a><br>
 
 </body>

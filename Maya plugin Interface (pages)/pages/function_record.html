@@ -3,34 +3,41 @@
 
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../styles/style.css" media="screen">
 <title> Maya 2012 - MoCap plug-in Interface </title>
 </head>
 <body>
 
 Application: Maya 2012  <br>
 Language: Python 3.x 	<br>
+<br>
+<a href="../index.html">Home</a><br>
+
 
 <br>
-<h2>unlock()</h2>
+<h2>record()</h2>
 <br>
 
 <h2>Parameters</h2>
-None
+<ul>
+	<li>Requires the READY_TO_READ status.</li>
+</ul>
 
 <h2>Return Values</h2>
 <ul>
- <li>IDLE status</li>
+ <li>READY_TO_STOP status</li>
 </ul>
 
 
-<h2>Description</h2>	
-Unlock one 3d human model.<br>
-This will unlock a locked model and thus clear all locator values.<br>
-Disabled if there is no locked model.<br>			    
+<h2>Description</h2>
+Short descrip.: This function does the same as the 'start()' function in that it animates the locators, on top of that it also sets keyframes to create a whole animation.<br>
+<br>
+Additional descrip.: This function will set a keyframe at the next available keyframe in the timeline after every processed message from MVN Studio regardless of time interval<br>
+while animating the given locators in the scene.<br> 
+This function has its pros and cons but should work.<br>
 
 <h2>Also see</h2>		    
-<a href="function_lock.html">lock()</a><br>
+<a href="function_read.html">start()</a><br>
 
 </body>
 </html>

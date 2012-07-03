@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="styles/style.css" media="screen">
+
+</head>
+	<body>
+		Application: Maya 2012 <br>
+		Language: Python 3.x <br>
+		<br>
+		Joey Toppin & Rik Ruiten
+		<br>
+		<br>
+
+		<h2> Plug-in console commands:</h2>
+
+		<ul>
+		 <li><a href="pages/function_lock.html">lock()</a></li>
+		 <li><a href="pages/function_unlock.html">unlock()</a></li>
+		 <li><a href="pages/function_start.html">start()</a></li>		
+		 <li><a href="pages/function_stop.html">stop()</a></li>
+		 <li><a href="pages/function_record.html">record()</a></li>
+		</ul>
+		
+		<h2> Troubleshooting, a list of common mistakes:</h2>
+		<b>In Mvn Studio</b><br>
+		<ul>
+		 <li>Make sure the messages that are send are set to 'EULER' based orientations.</li>
+		 <li>Make sure the messages that are send out are sent to the correct IP and Port<br>
+		     default is: 127.0.0.1 on port 9763.</li>
+		</ul>
+
+		<b>In Maya:</b><br>		
+		<ul>
+			<li>Make sure the code interpreter (found bottom right) is set to Python and <b>NOT</b> MEL</li>
+		</ul>
+
+		<h2> Code concepts (for coders)</h2>
+		<ul>
+		 <li> The architecture </li>
+		 <li> Message processing </li>
+		</ul> 
+				
+		<h2>Externe links</h2>	
+		<a href="http://python.org/getit/">Download Python 3.x</a><br>
+	</body>
+</html>

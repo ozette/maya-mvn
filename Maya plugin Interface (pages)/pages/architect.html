@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../styles/style.css" media="screen">
+<title> Maya 2012 - MoCap plug-in Interface </title>
+</head>
+<body>
+
+Application: Maya 2012  <br>
+Language: Python 3.x 	<br>
+<br>
+<a href="../index.html">Home</a><br>
+
+<br>
+<h2>Architecture</h2>
+<br>
+
+<h3> State Machine </h3>
+The code functions as a state machine as it operates in different states.<br>
+We have thought of 3 states.<br>
+<ul>
+	<li>IDLE: the default state.</li>
+	<li>READY_TO_READ: invoked after you've locked and brought your locators over to the program by issuing the 'lock()' command.</li>
+	<li>READY_TO_STOP: invoked as soon as you're in a started or recording session.</li>
+</ul>
+
+The functions can only be issued when the program is in a certain state.<br>
+This is to prevent errors, an end-user shouldn't be able to do 'record()' while there's no locators known in the program.<br>
+And it's neat to write programs which act like a state machine, also for readability.<br>
+<br>
+Below a print of the state requirements of the functions and what they return:<br><br>
+<b>Description:</b> 
+<ul>
+ <li>The lock() command can only be issued in the IDLE status, which is the default state.</li>
+ <li>The unlock() command requires the READY_TO_READ status which is set by the lock() command to be performed.</li>
+ <li>The start/record() commands require MVN streaming to the correct IP/PORT and the READY_TO_READ status.</li>
+ <li>The stop command can only be performed in the READY_TO_STOP status and returns the READY_TO_READ status.</li>
+</ul>
+You can see that there are 3 levels of performance, and the 'undo' commands like unlock and stop bring you back to the level above.<br>
+<img src='../styles/architecture.png'/> 
+
+
+</body>
+</html>

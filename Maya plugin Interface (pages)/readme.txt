@@ -1,14 +1,5 @@
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
-[] Team 13						  []
-[]					                  []
-[] Subteam - Opdracht 47 :  Game/Animation Motion Capture []
-[] Members:           				        
-[] Ferry 	Kloek  (design) 		                            
-[] Philippe 	Wedema (design/docs)	       
-[] Patrick 	Stroombergen	(design)		
-[] Rik 		Ruiten	(code/docs)			                     
-[] Joey 	Toppin	(code/docs)			       
-
+Toppin Joey
+Ruiten Rik			       
 
 De documentatie pagina op de Maya 2012 - MVN Studio plug-in.
 

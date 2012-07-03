@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../styles/style.css" media="screen">
 <title> Maya 2012 - MoCap plug-in Interface </title>
 </head>
 <body>
@@ -11,38 +11,48 @@
 Application: Maya 2012  <br>
 Language: Python 3.x 	<br>
 <br>
+<br>
+<a href="../index.html">Home</a><br>
+
 
 <br>
 <h2>lock()</h2>
 <br>
 
 <h2>Parameters</h2>
-head<br>
-neck<br>
-leftshoulder<br>
-leftupperarm<br>
-leftforearm<br>
-lefthand<br>
-rightshoulder<br>
-rightupperarm<br>
-rightforearm<br>
-righthand<br>
-top1<br>
-top2<br>
-low1<br>
-low2 <b>- omitted (L3)</b><br>
-pelvis<br>
-leftupperleg<br>
-leftlowerleg<br>
-leftfoot<br>
-lefttoe<br>
-rightupperleg<br>
-rightlowerleg<br>
-rightfoot<br>
-righttoe<br>
-refpoint<br>
+Requires the IDLE_STATUS.<br>
+Takes all locators in the scene with 'NAME_LOCATORNAME' and sets those into the code.<br>
 <br>
-<b>total: 23</b><br>
+<b>NOTE:</b> Take note of the given locator names. These should be as follows:<br>
+<ul>
+<li>_head</li>
+<li>_neck</li>
+<li>_leftshoulder</li>
+<li>_leftupperarm</li>
+<li>_leftforearm</li>
+<li>_lefthand</li>
+<li>_rightshoulder</li>
+<li>_rightupperarm</li>
+<li>_rightforearm</li>
+<li>_righthand</li>
+<li>_top1</li>
+<li>_top2</li>
+<li>_low1</li>
+<li>_low2</li> 
+<li>_low3</li>
+<li>_pelvis</li>
+<li>_leftupperleg</li>
+<li>_leftlowerleg</li>
+<li>_leftfoot</li>
+<li>_lefttoe</li>
+<li>_rightupperleg</li>
+<li>_rightlowerleg</li>
+<li>_rightfoot</li>
+<li>_righttoe</li>
+<li>_refpoint</li>
+</ul>
+<b>The model name however is variable and can be adjusted by issuing: "NAME = 'your_chosen_name'" in the python console.</b><br>
+So if your chosen name is 'man' for example, all locators in the scene should be named: man_head, man_pelvis, man_leftupperarm, man_righttoe, etc.<br>
 
 <h2>Return Values</h2>
 <ul>
@@ -51,12 +61,13 @@ refpoint<br>
 </ul>
 
 <h2>Description</h2>	
-Lock one 3d human model.<br>
-This will get and assign the selected human skeleton's joints corresponding with MVN Studio's markers to the plug-in.<br>
+Lock one set of locators.<br>
+This will get and assign the locators with the variable model name to the plug-in.<br>
 This is essential to start reading.<br>		
 
 <h2>Also see</h2>		    
 <a href="function_start.html">start()</a><br>
+<a href="function_record.html">record()</a><br>
 <a href="function_unlock.html">unlock()</a><br>
 
 </body>
