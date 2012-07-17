@@ -1,4 +1,4 @@
-project-motion-capture
+Autodesk Maya 2012 - MVN Studio motion capture python plug-in
 ======================
 LATEST VERSION 4.0
 
