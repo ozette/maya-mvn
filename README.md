@@ -11,5 +11,4 @@ motion capture data from Xsens's MVN Studio, real time.
 
 The plug-in is written in Python.
 
-We're about done with this project and we hope other people will continue it by freely adding their
-needs to it.
+We're done with this project and we hope other people will contribute by adding their needs to it.
