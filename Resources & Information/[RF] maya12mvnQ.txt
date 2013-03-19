@@ -1,8 +1,0 @@
-translateXYZ uitvoeren
-cmds.setAttr('object.translate', x, y, z)
-
-voor roteren:
-cmds.setAttr('object.rotate', x,y,z)
-
-cmds.select('object')
-cmds.setKeyframe(t='framenumber')

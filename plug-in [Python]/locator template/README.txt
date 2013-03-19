@@ -1,3 +1,0 @@
-if you use this template, please take notice of the locator names as the default is 'pol'.
-
-You can change the name in the code or by issuing "NAME = 'yourchosenname'" in the Python console
