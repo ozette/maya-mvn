@@ -17,6 +17,9 @@ Setup:
 Note: i've only got MVN Studio and Maya 2012 to work on a Windows machine.
 
 
-# Revision:
+-- Revision:
+2016-06-22: changed markdown to beautify the way this markdown is rendered on github.
+
 2013-03-19: Rewrote this file in English.
+
 2012-04-19: Added Euler message that we've been using for research and testing.
