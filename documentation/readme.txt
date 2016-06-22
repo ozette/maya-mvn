@@ -1,11 +1,10 @@
 Toppin Joey
 Ruiten Rik			       
 
-De documentatie pagina op de Maya 2012 - MVN Studio plug-in.
+These are the documentation pages on the 'Maya 2012 - MVN Studio plug-in'
 
-Het idee achter de plug-in is simpel;
+The idea behind this plug-in is simple:
 'MVN Studio -> Plug-in -> Maya scene'
 
-Verder;
-'Alles wat je kunt doen, moet je ook ongedaan kunnen maken'
-
+Furthermore;
+"Everything that can be done, can be undone".
