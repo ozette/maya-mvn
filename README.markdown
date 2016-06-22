@@ -9,6 +9,8 @@ This project was started as initiative by Joey Toppin and Rik Ruiten.
 The goal was to create an opensource plug-in for Autodesk Maya to receive and process
 motion capture data from Xsens's MVN Studio, real time.
 
+Also see the Wiki and the template in src/locator-template!
+
 The plug-in is written in Python.
 
 We're done with this project and we hope other people will contribute by adding their needs to it.
