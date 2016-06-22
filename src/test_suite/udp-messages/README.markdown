@@ -14,7 +14,7 @@ Setup:
 - Open and/or execute "mayapy_send", it will send a message to mayapy_receive.
   You can execute mayapy_send as many times as you want to receive new messages.
 
-# Note: i've only got MVN Studio and Maya 2012 to work on a Windows machine.
+Note: i've only got MVN Studio and Maya 2012 to work on a Windows machine.
 
 
 # Revision:
